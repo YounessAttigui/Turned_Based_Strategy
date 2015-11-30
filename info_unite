@@ -1,0 +1,97 @@
+import pygame
+from pygame.locals import *
+import units as U
+
+pygame.init()
+
+unite="tank"
+life=75
+lifemax=100
+action=3
+actionmax=5
+move=2
+movemax=3
+atk=25
+
+#Ouverture de la fenêtre Pygame
+fenetre = pygame.display.set_mode((380, 420))
+
+#Chargement et collage du fond
+fond = pygame.image.load("textures/background.jpg").convert()
+fenetre.blit(fond, (0,0))
+
+#Affichage du titre de l'unité
+rect0=pygame.display.get_surface().get_rect()
+rect0.left=50
+rect0.top=25
+rect0.width=255
+rect0.height=20
+	
+font = pygame.font.Font(None, 36)
+text = font.render(str(unite).upper()+" : ATK="+str(atk), 1, (0, 255, 0))
+fenetre.blit(text, (80,20))
+
+#Chargement et collage du personnage
+perso = pygame.image.load("textures/"+str(unite)+".png").convert_alpha()
+fenetre.blit(perso, (50,50))
+
+#Chargement des barres de vie ,d'action et de mouvement
+rect=pygame.display.get_surface().get_rect()
+rect.left=50
+rect.top=275
+rect.width=255
+rect.height=20
+barre1=fenetre.subsurface(rect)
+barre1.fill((0,0,0))
+
+rect1=pygame.display.get_surface().get_rect()
+rect1.left=50
+rect1.top=275
+rect1.width=255*life/lifemax
+rect1.height=20
+vie=fenetre.subsurface(rect1)
+vie.fill((255,0,0))
+
+font = pygame.font.Font(None, 36)
+text = font.render("PV:"+str(life)+"/"+str(lifemax), 10, (0, 128, 0))
+fenetre.blit(text, (125,273))
+
+for n in range(actionmax):
+        rect.top=325
+        rect.width=(255-20*(actionmax-1))/actionmax
+        rect.left=50+n*(20+rect.width)
+        barre2=fenetre.subsurface(rect)
+        barre2.fill((0,0,0))
+
+for n in range(action):
+        rect.left=50+n*(20+rect.width)
+        act=fenetre.subsurface(rect)
+        act.fill((0,128,0))
+
+font = pygame.font.Font(None, 36)
+text = font.render("PA:"+str(action)+"/"+str(actionmax), 10, (0, 0, 255))
+fenetre.blit(text, (137,323))
+
+for n in range(movemax):
+        rect.top=375
+        rect.width=(255-20*(movemax-1))/movemax
+        rect.left=50+n*(20+rect.width)
+        barre2=fenetre.subsurface(rect)
+        barre2.fill((0,0,0))
+
+for n in range(move):
+        rect.left=50+n*(20+rect.width)
+        act=fenetre.subsurface(rect)
+        act.fill((0,0,255))
+
+font = pygame.font.Font(None, 36)
+text = font.render("PM:"+str(move)+"/"+str(movemax), 10, (255, 0, 0))
+fenetre.blit(text, (137,373))
+
+#Rafraîchissement de l'écran
+pygame.display.flip()
+
+#BOUCLE INFINIE
+continuer = 1
+while continuer:
+        continuer = int(input())
